@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Highlights - JNTUHUCEM Weather</title>
+    <link rel="stylesheet" href="highlights.css">
+    <script defer src="highlights.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body onload="fetchSensorData(); updateTime();">
+    <div class="container">
+        <header>
+            <h1>Today's Highlights</h1>
+            <div class="time" id="live-time"></div>
+            <button class="toggle-mode" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </header>
+
+        <div class="weather-info">
+            <h2>Weather Summary</h2>
+            <h2 class="temperature" id="current-temp">-- °C</h2>
+            <hr>
+            <div class="date" id="current-date"></div>
+        </div>
+
+        <div class="data-container">
+            <h2>Highlights of the Day</h2>
+            <div class="sensor-grid">
+                <div class="data-item">
+                    <p>Temperature</p>
+                    <h1 id="temperature">--</h1>°C
+                </div>
+                <div class="data-item">
+                    <p>BMP Temperature</p>
+                    <h1 id="bmp-temperature">--</h1>°C
+                </div>
+                <div class="data-item">
+                    <p>Humidity Level</p>
+                    <h1 id="humidity">--</h1>%
+                </div>
+                <div class="data-item">
+                    <p>Wind Speed</p>
+                    <h1 id="wind-speed">--</h1>m/s
+                </div>
+                <div class="data-item">
+                    <p>Precipitation</p>
+                    <h1 id="precipitation">--</h1> mm
+                </div>
+                <div class="data-item">
+                    <p>Dew Point</p>
+                    <h1 id="dew-point">--</h1>°C
+                </div>
+                <div class="data-item">
+                    <p>Visibility</p>
+                    <h1 id="visibility">--</h1> m
+                </div>
+                <div class="data-item">
+                    <p>Light Intensity</p>
+                    <h1 id="light-intensity">--</h1> lux
+                </div>
+                <div class="data-item">
+                    <p>Flame Detection</p>
+                    <h1 id="flame-detection">--</h1>
+                </div>
+            </div>
+        </div>
+        <div class="description" id="weather-description">We will have a wonderful day</div>    
+        <div class="buttons">
+            <button onclick="location.href='index1.html'">Back to Home</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JNTUHUCEM Weather</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body onload="fetchSensorData(); updateTime();">
+    <div class="container">
+        <header>
+            <h1>JNTUHUCEM Weather</h1>
+            <div class="time" id="live-time"></div>
+            <button class="toggle-mode" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </header>
+
+        <div class="weather-info">
+            <h2>Current Weather</h2>
+            <h2 class="temperature" id="current-temp">-- °C</h2>
+            <div class="feelsLike">Feels like: <span id="feels-like">--</span></div>
+            <hr>
+            <div class="date" id="current-date"></div>
+        </div>
+
+        <div class="data-container">
+            <h2>Real-time Sensor Data</h2>
+            <div class="sensor-grid">
+                <div class="data-item"><p>Temperature</p><h1 id="temperature">--</h1>°C</div>
+                <div class="data-item"><p>Humidity</p><h1 id="humidity">--</h1>%</div>
+                <div class="data-item"><p>Light Intensity</p><h1 id="light-intensity">--</h1> Lux</div>
+                <div class="data-item"><p>BMP Temperature</p><h1 id="bmp-temperature">--</h1>°C</div>
+                <div class="data-item"><p>Pressure</p><h1 id="pressure">--</h1> hPa</div>
+                <div class="data-item"><p>Flame Detection</p><h1 id="flame-detection">--</h1></div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button onclick="location.href='highlights.html'">Today's Highlights</button>
+        </div>
+    </div>
+
+    <script>
+        async function fetchSensorData() {
+            try {
+                let response = await fetch('http://localhost:5500/sensor_data');
+                let data = await response.json();
+
+                document.getElementById("current-temp").innerText = `${data.lm35_temperature} °C`;
+                document.getElementById("feels-like").innerText = `${data.lm35_temperature}`;
+                document.getElementById("temperature").innerText = `${data.lm35_temperature}`;
+                document.getElementById("humidity").innerText = `${data.humidity}`;
+                document.getElementById("light-intensity").innerText = `${data.light_intensity}`;
+                document.getElementById("bmp-temperature").innerText = `${data.bmp_temperature}`;
+                document.getElementById("pressure").innerText = `${data.pressure}`;
+                document.getElementById("flame-detection").innerText = `${data.flame_detection}`;
+            } catch (error) {
+                console.error("Error fetching sensor data:", error);
+            }
+        }
+        setInterval(fetchSensorData, 5000);
+
+        function updateTime() {
+            let now = new Date();
+            let timeString = now.toLocaleTimeString();
+            let dateString = now.toDateString();
+
+            document.getElementById("live-time").innerText = timeString;
+            document.getElementById("current-date").innerText = dateString;
+            setTimeout(updateTime, 1000);
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (localStorage.getItem("theme") === "dark") {
+                document.body.classList.add("dark-mode");
+            }
+            fetchSensorData();
+            updateTime();
+        });
+    </script>
+</body>
+</html>

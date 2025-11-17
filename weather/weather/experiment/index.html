@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .data-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #fff;
+            max-width: 400px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .data-item {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sensor Data</h1>
+    <div class="data-container" id="data-container">
+        <div class="data-item">Temperature: <span id="temperature">Loading...</span> °C</div>
+        <div class="data-item">Humidity: <span id="humidity">Loading...</span> %</div>
+        <div class="data-item">Light Intensity: <span id="light-intensity">Loading...</span> Lux</div>
+        <div class="data-item">BMP Temperature: <span id="bmp-temperature">Loading...</span> °C</div>
+        <div class="data-item">Pressure: <span id="pressure">Loading...</span> hPa</div>
+        <div class="data-item">Flame Intensity: <span id="flame-intensity">Loading...</span> %</div>
+    </div>
+    <div class="error" id="error-message"></div>
+
+    <script>
+        async function fetchData() {
+            const url = 'http://127.0.0.1:5000/sensor_data';  // Flask Server URL
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Ensure all fields exist
+                const requiredFields = ['temperature', 'humidity', 'light_intensity', 
+                                        'bmp_temperature', 'pressure', 'flame_intensity'];
+                const missingFields = requiredFields.filter(field => !(field in data));
+
+                if (missingFields.length > 0) {
+                    throw new Error(`Missing fields: ${missingFields.join(', ')}`);
+                }
+
+                displayData(data);
+                document.getElementById('error-message').textContent = '';
+                
+            } catch (error) {
+                console.error('Fetch error:', error);
+                document.getElementById('error-message').textContent = 
+                    `Error fetching data: ${error.message}`;
+                
+                const fields = ['temperature', 'humidity', 'light-intensity', 
+                                'bmp-temperature', 'pressure', 'flame-intensity'];
+                fields.forEach(field => document.getElementById(field).textContent = 'N/A');
+            }
+        }
+
+        function displayData(data) {
+            // Adjust bmp_temperature if needed (assuming it's in tenths of °C)
+            const bmpTemp = data.bmp_temperature / 10;  
+
+            document.getElementById('temperature').textContent = Number(data.temperature).toFixed(1);
+            document.getElementById('humidity').textContent = Number(data.humidity).toFixed(1);
+            document.getElementById('light-intensity').textContent = Number(data.light_intensity).toFixed(0);
+            document.getElementById('bmp-temperature').textContent = Number(bmpTemp).toFixed(1);
+            document.getElementById('pressure').textContent = Number(data.pressure).toFixed(2);
+            document.getElementById('flame-intensity').textContent = Number(data.flame_intensity).toFixed(1);
+        }
+
+        // Fetch data initially and every 5 seconds
+        window.onload = function() {
+            fetchData();
+            setInterval(fetchData, 5000);
+        };
+    </script>
+
+</body>
+</html>

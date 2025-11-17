@@ -1,0 +1,128 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+:root {
+    --bg-color: #f5f5f5;
+    --text-color: #222;
+    --container-bg: rgba(255, 255, 255, 0.9);
+    --button-bg: #007bff;
+    --button-hover: #0056b3;
+    --data-bg: rgba(0, 0, 0, 0.07);
+    --border-radius: 12px;
+}
+
+.dark-mode {
+    --bg-color: #1e1e1e;
+    --text-color: #f5f5f5;
+    --container-bg: rgba(255, 255, 255, 0.1);
+    --button-bg: #ff9800;
+    --button-hover: #e68900;
+    --data-bg: rgba(255, 255, 255, 0.15);
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background: var(--container-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h1, h2 {
+    font-weight: 600;
+}
+
+.toggle-mode {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: transform 0.3s ease-in-out;
+}
+
+.toggle-mode:hover {
+    transform: rotate(360deg);
+}
+
+.weather-info {
+    text-align: center;
+    padding: 20px;
+    background: var(--data-bg);
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+.sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.data-item {
+    background: var(--data-bg);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-weight: bold;
+    transition: transform 0.3s;
+}
+
+.data-item:hover {
+    transform: scale(1.05);
+}
+
+.description {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    background: var(--button-bg);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:hover {
+    background: var(--button-hover);
+}
+
+.time, .date {
+    font-size: 18px;
+    font-weight: bold;
+}
